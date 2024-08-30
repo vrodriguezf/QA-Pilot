@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./svelte-app
+      dockerfile: Dockerfile
+    volumes:
+      - ./svelte-app:/app
+    ports:
+      - "3000:5001"
+    environment:
+      - API_BASE_URL=http://backend:5000
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: qa_pilot_chatsession_db
+      POSTGRES_USER: qa_pilot_user
+      POSTGRES_PASSWORD: qa_pilot_p
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

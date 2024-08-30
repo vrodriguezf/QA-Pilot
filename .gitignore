@@ -1,0 +1,8 @@
+/cache_embeddings/
+/VectorStore/
+
+# Common python files
+*.pyc
+__pycache__/
+venv/
+*.env
